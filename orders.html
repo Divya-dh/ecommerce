@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <link rel="icon" href="IMAGES/favicon.avif" type="image/avif">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        header img {
+            position: absolute;
+            top:20px;
+            left:20px;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        #order-container {
+            margin: 20px;
+        }
+        .order-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .order-item {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .order-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .order-details {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+        .order-details h3 {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        .order-details p {
+            font-size: 16px;
+            color: #777777;
+        }
+        .order-total {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+        .order-button {
+            padding: 10px 20px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            margin-top: 30px;
+        }
+        .order-button:hover {
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <img src="IMAGES/favicon.avif" alt="Home">
+        </a>
+        <h1>Your Order Summary</h1>
+    </header>
+
+    <div id="order-container">
+        <div class="order-title">Order Details</div>
+        <div id="order-items"></div>
+        <div class="order-total">
+            Total: $<span id="total-price">0</span>
+        </div>
+        <button class="order-button" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <script>
+        // Load and display orders from localStorage
+        function loadOrders() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            console.log('Cart Data:', cart); // Debugging log to check cart data
+
+            const orderItemsContainer = document.getElementById('order-items');
+            let totalPrice = 0;
+
+            // Clear previous items
+            orderItemsContainer.innerHTML = '';
+
+            // Loop through each item in the cart and add it to the order summary
+            cart.forEach(item => {
+                const orderItemDiv = document.createElement('div');
+                orderItemDiv.classList.add('order-item');
+                
+                orderItemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="order-details">
+                        <h3>${item.name}</h3>
+                        <p>$${item.price}</p>
+                    </div>
+                `;
+                
+                orderItemsContainer.appendChild(orderItemDiv);
+                totalPrice += item.price;
+            });
+
+            // Update the total price
+            document.getElementById('total-price').textContent = totalPrice;
+        }
+
+        // Place the order (clear cart and display confirmation)
+        function placeOrder() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                alert("Your cart is empty! Add items to your cart before placing an order.");
+                return;
+            }
+
+            // Simulate order process by clearing the cart
+            localStorage.setItem('cart', JSON.stringify([]));
+            alert("Your order has been placed successfully!");
+            window.location.href = "index.html"; // Redirect to homepage or another page
+        }
+
+        // Load orders when the page is loaded
+        window.onload = loadOrders;
+    </script>
+
+</body>
+</html>

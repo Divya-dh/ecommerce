@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Shopster</title>
+    <link rel="icon" href="IMAGES/favicon.avif" type="image/avif">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        header img {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .category-container {
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .category-container h2 {
+            margin: 10px 0;
+            font-size: 22px;
+            color: #000000;
+        }
+        .products-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 10px;
+        }
+        .product {
+            background-color: #f5f5f5;
+            padding: 20px;
+            min-width: 250px;
+            max-width: 250px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .product img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .product p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .product button {
+            padding: 10px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .product button:hover {
+            background-color: #333333;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #f1f1f1;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .pagination a.active {
+            background-color: #000000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">
+            <img src="IMAGES/favicon.avif" alt="Back to Home">
+        </a>
+        <h1>Products</h1>
+    </header>
+
+    <!-- Categories with Products -->
+    <div id="categories-container">
+        <!-- Categories will be dynamically injected here -->
+    </div>
+
+    <div class="pagination" id="pagination">
+        <!-- Pagination links will be dynamically injected here -->
+    </div>
+
+    <script>
+        const categories = [
+            { 
+                name: "Men's Fashion",
+                products: [
+                    { id: 1, name: "Men's T-Shirt", price: 25, image: "IMAGES/mens_tshirt.webp" },
+                    { id: 2, name: "Men's Jeans", price: 50, image: "IMAGES/mens_jeans.webp" },
+                    { id: 3, name: "Men's Jacket", price: 100, image: "IMAGES/mens_jacket.webp" },
+                    { id: 4, name: "Men's Sneakers", price: 60, image: "IMAGES/mens_sneakers.jpg" },
+                    { id: 5, name: "Men's Watch", price: 120, image: "IMAGES/mens_watch.webp" },
+                    { id: 6, name: "Men's Hoodie", price: 70, image: "IMAGES/mens_hoodie.webp" },
+                    { id: 7, name: "Men's Sunglasses", price: 30, image: "IMAGES/mens_sunglasses.webp" },
+                    { id: 8, name: "Men's Cap", price: 20, image: "IMAGES/mens_cap.webp" },
+                    { id: 9, name: "Men's Belt", price: 40, image: "IMAGES/mens_belt.webp" },
+                    { id: 10, name: "Men's Boots", price: 90, image: "IMAGES/mens_boots.webp" }
+                ]
+            },
+            { 
+                name: "Women's Fashion",
+                products: [
+                    { id: 11, name: "Women's Dress", price: 80, image: "IMAGES/womens_dress.webp" },
+                    { id: 12, name: "Women's Blouse", price: 40, image: "IMAGES/womens_blouse.webp" },
+                    { id: 13, name: "Women's Skirt", price: 50, image: "IMAGES/womens_skirt.webp" },
+                    { id: 14, name: "Women's Heels", price: 70, image: "IMAGES/womens_heels.webp" },
+                    { id: 15, name: "Women's Handbag", price: 120, image: "IMAGES/womens_handbag.webp" },
+                    { id: 16, name: "Women's Cardigan", price: 60, image: "IMAGES/womens_cardigan.webp" },
+                    { id: 17, name: "Women's Sunglasses", price: 25, image: "IMAGES/womens_sunglasses.webp" },
+                    { id: 18, name: "Women's Boots", price: 80, image: "IMAGES/womens_boots.webp" },
+                    { id: 19, name: "Women's Watch", price: 100, image: "IMAGES/womens_watch.avif" },
+                    { id: 20, name: "Women's Scarf", price: 30, image: "IMAGES/womens_scarf.webp" }
+                ]
+            },
+            { 
+                name: "Kid's Fashion",
+                products: [
+                    { id: 21, name: "Kid's T-Shirt", price: 15, image: "IMAGES/kids_tshirt.webp" },
+                    { id: 22, name: "Kid's Jeans", price: 30, image: "IMAGES/kids_jeans.webp" },
+                    { id: 23, name: "Kid's Jacket", price: 45, image: "IMAGES/kids_jacket.webp" },
+                    { id: 24, name: "Kid's Sneakers", price: 35, image: "IMAGES/kids_sneakers.webp" },
+                    { id: 25, name: "Kid's Backpack", price: 25, image: "IMAGES/kids_backpack.webp" },
+                    { id: 26, name: "Kid's Socks", price: 10, image: "IMAGES/kids_socks.webp" },
+                    { id: 27, name: "Kid's Sunglasses", price: 12, image: "IMAGES/kids_sunglasses.webp" },
+                    { id: 28, name: "Kid's Hoodie", price: 40, image: "IMAGES/kids_hoodie.webp" },
+                    { id: 29, name: "Kid's Hat", price: 18, image: "IMAGES/kids_hat.jpg" },
+                    { id: 30, name: "Kid's Shoes", price: 50, image: "IMAGES/kids_shoes.jpg" }
+                ]
+            },
+            { 
+                name: "Sportswear",
+                products: [
+                    { id: 31, name: "Sporty T-Shirt", price: 25, image: "IMAGES/sporty_tshirt.webp" },
+                    { id: 32, name: "Sporty Shorts", price: 30, image: "IMAGES/sporty_shorts.webp" },
+                    { id: 33, name: "Sports Shoes", price: 55, image: "IMAGES/sports_shoes.webp" },
+                    { id: 34, name: "Workout Hoodie", price: 40, image: "IMAGES/workout_hoodie.webp" },
+                    { id: 35, name: "Running Shoes", price: 70, image: "IMAGES/running_shoes.webp" },
+                    { id: 36, name: "Sports Cap", price: 15, image: "IMAGES/sports_cap.avif" },
+                    { id: 37, name: "Sports Socks", price: 10, image: "IMAGES/sports_socks.jpg" },
+                    { id: 38, name: "Gym Bag", price: 40, image: "IMAGES/gym_bag.webp" },
+                    { id: 39, name: "Sports Watch", price: 60, image: "IMAGES/sports_watch.webp" },
+                    { id: 40, name: "Sports Jacket", price: 80, image: "IMAGES/sports_jacket.webp" }
+                ]
+            },
+            { 
+                name: "Footwear",
+                products: [
+                    { id: 41, name: "Leather Boots", price: 120, image: "IMAGES/leather_boots.webp" },
+                    { id: 42, name: "Sneakers", price: 80, image: "IMAGES/sneakers.webp" },
+                    { id: 43, name: "High Heels", price: 100, image: "IMAGES/high_heels.avif" },
+                    { id: 44, name: "Running Shoes", price: 75, image: "IMAGES/running_shoes1.avif" },
+                    { id: 45, name: "Flip Flops", price: 25, image: "IMAGES/flip_flops.jpg" },
+                    { id: 46, name: "Formal Shoes", price: 90, image: "IMAGES/formal_shoes.webp" },
+                    { id: 47, name: "Boots", price: 110, image: "IMAGES/boots.webp" },
+                    { id: 48, name: "Slippers", price: 20, image: "IMAGES/slippers.webp" },
+                    { id: 49, name: "Sandals", price: 35, image: "IMAGES/sandals.webp" },
+                    { id: 50, name: "Work Boots", price: 150, image: "IMAGES/work_boots.webp" }
+                ]
+            },
+            { 
+                name: "Accessories",
+                products: [
+                    { id: 51, name: "Sunglasses", price: 30, image: "IMAGES/sunglasses1.webp" },
+                    { id: 52, name: "Wallet", price: 40, image: "IMAGES/wallet.webp" },
+                    { id: 53, name: "Watch", price: 70, image: "IMAGES/watch1.avif" },
+                    { id: 54, name: "Belt", price: 25, image: "IMAGES/belt.webp" },
+                    { id: 55, name: "Backpack", price: 60, image: "IMAGES/backpack.webp" },
+                    { id: 56, name: "Hat", price: 20, image: "IMAGES/hat.avif" },
+                    { id: 57, name: "Scarf", price: 15, image: "IMAGES/scarf.webp" },
+                    { id: 58, name: "Gloves", price: 10, image: "IMAGES/gloves.avif" },
+                    { id: 59, name: "Jewelry", price: 120, image: "IMAGES/jewelry.webp" },
+                    { id: 60, name: "Tote Bag", price: 50, image: "IMAGES/tote_bag.webp" }
+                ]
+            }
+        ];
+
+        const categoriesContainer = document.getElementById('categories-container');
+        const paginationContainer = document.getElementById('pagination');
+        let currentIndex = parseInt(window.location.hash.substring(1)) || 0;
+
+        const renderCategories = () => {
+            categoriesContainer.innerHTML = '';
+            const category = categories[currentIndex];
+            const categoryDiv = document.createElement('div');
+            categoryDiv.classList.add('category-container');
+            categoryDiv.innerHTML = `<h2>${category.name}</h2>`;
+
+            const productsRow = document.createElement('div');
+            productsRow.classList.add('products-row');
+
+            category.products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price}</p>
+                    <button onclick="addToCart(${product.id})">Add to Cart</button>
+                    <button onclick="addToWishlist(${product.id})">Add to Wishlist</button>
+                `;
+                productsRow.appendChild(productDiv);
+            });
+
+            categoryDiv.appendChild(productsRow);
+            categoriesContainer.appendChild(categoryDiv);
+            renderPagination(currentIndex);
+        };
+
+        const renderPagination = (currentIndex) => {
+            const pageCount = categories.length;
+            paginationContainer.innerHTML = '';
+            
+            for (let i = 0; i < pageCount; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = `#${i}`;
+                pageLink.textContent = `${i + 1}`; // Display only the numbers
+                if (i === currentIndex) {
+                    pageLink.classList.add('active');
+                }
+                paginationContainer.appendChild(pageLink);
+            }
+        };
+
+        window.addEventListener('hashchange', () => {
+            currentIndex = parseInt(window.location.hash.substring(1)) || 0;
+            renderCategories();
+        });
+
+        renderCategories();
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopster</title>
+    <link rel="icon" href="IMAGES/favicon.avif" type="image/avif">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+            position: relative;
+        }
+        .favicon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 80px;
+            height: 80px;
+        }
+        h1{
+            margin-left: 100px;
+        }
+        #nav-menu {
+            background-color: #ffffff;
+            padding: 10px 0;
+            text-align: left;
+            position: relative;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        #nav-menu a {
+            color: black;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 18px;
+        }
+        #nav-menu a:hover {
+            background-color: #f5f5f5;
+            max-width: 30px;
+        }
+        .cart-wishlist-icons {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        .cart-icon, .wishlist-icon {
+            background-color: transparent;
+            cursor: pointer;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        .search-bar-container {
+            position: relative;
+            margin: 30px auto;
+            width: 350px;
+            text-align: center;
+        }
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            padding-right: 10px;
+        }
+        .search-bar {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: transparent;
+            color: black;
+            outline: none;
+        }
+        .search-bar::placeholder {
+            color: #000000;
+        }
+        .search-icon {
+            position: relative;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .suggestion-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        .suggestion-list div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-list div:hover {
+            background-color: #e5e5e5;
+        }
+        .category {
+            margin: 20px;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        .category h2 {
+            margin: 10px 0;
+            font-size: 22px;
+            color: #000000;
+        }
+        .products-row {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px;
+            scroll-behavior: smooth;
+        }
+        .product {
+            background-color: #f5f5f5;
+            padding: 20px;
+            min-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .product p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .product button {
+            padding: 10px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .product button:hover {
+            background-color: #333333;
+        }
+        /* Search Results Section */
+        #search-results {
+            padding: 20px;
+            text-align: center;
+            display: none; /* Initially hidden */
+        }
+        .search-results-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .products-row {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .product {
+                min-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="IMAGES/favicon.avif" alt="Favicon" class="favicon">
+        <h1>Shopster</h1>
+        
+        <!-- Wishlist and Cart Icons -->
+        <div class="cart-wishlist-icons">
+            <div class="wishlist-icon" onclick="window.location.href='wishlist.html'">
+                <img src="IMAGES/wishlist-icon.png" alt="Wishlist" width="25" height="25">
+            </div>
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
+                <img src="IMAGES/cart-icon.png" alt="Cart" width="25" height="25">
+            </div>
+        </div>
+    </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <div id="nav-menu">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="orders.html">Orders</a>
+        <a href="contact.html">Contact</a>
+        
+    <!-- Search Bar -->
+    <div class="search-bar-container">
+        <div class="search-wrapper">
+            <input type="text" id="search-bar" class="search-bar" placeholder="Search for products..." oninput="searchProducts()">
+            <img src="IMAGES/search-icon.png" alt="Search" class="search-icon" width="20" height="20" onclick="searchProducts()">
+        </div>
+        <div class="suggestion-list" id="suggestions"></div>
+    </div>
+
+    <!-- Search Results -->
+    <div id="search-results">
+        <h2>Search Results</h2>
+        <div class="search-results-row" id="search-results-row">
+            <!-- Dynamic results will be shown here -->
+        </div>
+    </div>
+
+    <!-- Categories with Swipeable Rows -->
+    <div id="categories-container">
+        <!-- Categories will be dynamically injected here -->
+    </div>
+
+    <script>
+        const categories = [
+            { 
+                name: "Electronics",
+                products: [
+                    { id: 1, name: "Laptop", price: 1000, image: "IMAGES/laptop.jpg" },
+                    { id: 2, name: "Smartphone", price: 800, image: "IMAGES/smartphone.jpg" },
+                    { id: 3, name: "Headphones", price: 100, image: "IMAGES/headphones.jpeg" },
+                    { id: 4, name: "Camera", price: 500, image: "IMAGES/camera.webp" },
+                    { id: 13, name: "Smartwatch", price: 200, image: "IMAGES/smartwatch.jpeg" },
+                    { id: 14, name: "Tablet", price: 600, image: "IMAGES/tablet.jpg" },
+                    { id: 15, name: "Monitor", price: 300, image: "IMAGES/monitor.jpeg" },
+                    { id: 16, name: "Gaming Console", price: 400, image: "IMAGES/console.jpeg" },
+                ]
+            },
+            { 
+                name: "Fashion",
+                products: [
+                    { id: 5, name: "T-Shirt", price: 20, image: "IMAGES/tshirt.webp" },
+                    { id: 6, name: "Jeans", price: 40, image: "IMAGES/jeans.webp" },
+                    { id: 7, name: "Sneakers", price: 60, image: "IMAGES/sneakers.jpeg" },
+                    { id: 8, name: "Jacket", price: 100, image: "IMAGES/jacket.webp" },
+                    { id: 17, name: "Cap", price: 15, image: "IMAGES/cap.jpeg" },
+                    { id: 18, name: "Dress", price: 80, image: "IMAGES/dress.webp" },
+                    { id: 19, name: "Sunglasses", price: 25, image: "IMAGES/sunglasses.webp" },
+                    { id: 20, name: "Watch", price: 120, image: "IMAGES/watch.webp" },
+                ]
+            },
+            { 
+                name: "Home & Kitchen",
+                products: [
+                    { id: 9, name: "Toaster", price: 30, image: "IMAGES/toaster.webp" },
+                    { id: 10, name: "Blender", price: 50, image: "IMAGES/blender.webp" },
+                    { id: 11, name: "Microwave", price: 150, image: "IMAGES/microwave.webp" },
+                    { id: 12, name: "Cookware Set", price: 200, image: "IMAGES/cookware.jpeg" },
+                    { id: 21, name: "Coffee Maker", price: 90, image: "IMAGES/coffeemaker.webp" },
+                    { id: 22, name: "Vacuum Cleaner", price: 250, image: "IMAGES/vacuum.webp" },
+                    { id: 23, name: "Air Purifier", price: 300, image: "IMAGES/airpurifier.webp" },
+                    { id: 24, name: "Electric Kettle", price: 40, image: "IMAGES/kettle.webp" },
+                ]
+            }
+        ];
+
+        const categoriesContainer = document.getElementById('categories-container');
+        const searchResultsRow = document.getElementById('search-results-row');
+
+// Function to populate categories dynamically
+function populateCategories() {
+    categories.forEach(category => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.classList.add('category');
+        categoryDiv.innerHTML = `<h2>${category.name}</h2>`;
+        
+        const productsRow = document.createElement('div');
+        productsRow.classList.add('products-row');
+        
+        category.products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+            productDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>$${product.price}</p>
+                <button onclick="addToCart(${product.id})">Add to Cart</button>
+                <button onclick="addToWishlist(${product.id})">Wishlist</button>
+            `;
+            productsRow.appendChild(productDiv);
+        });
+        
+        categoryDiv.appendChild(productsRow);
+        categoriesContainer.appendChild(categoryDiv);
+    });
+}
+
+// Function to search products
+function searchProducts() {
+    const query = document.getElementById('search-bar').value.toLowerCase();
+    const suggestions = document.getElementById('suggestions');
+    const searchResults = categories
+        .flatMap(category => category.products)
+        .filter(product => product.name.toLowerCase().includes(query));
+
+    suggestions.innerHTML = '';
+    if (query) {
+        searchResults.forEach(product => {
+            const suggestionDiv = document.createElement('div');
+            suggestionDiv.textContent = product.name;
+            suggestionDiv.onclick = () => {
+                document.getElementById('search-bar').value = product.name;
+                displaySearchResults([product]);
+                suggestions.style.display = 'none';
+            };
+            suggestions.appendChild(suggestionDiv);
+        });
+        suggestions.style.display = 'block';
+    } else {
+        suggestions.style.display = 'none';
+    }
+}
+
+// Function to display search results
+function displaySearchResults(products) {
+    const searchResults = document.getElementById('search-results');
+    searchResultsRow.innerHTML = '';
+    products.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.classList.add('product');
+        productDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>$${product.price}</p>
+            <button onclick="addToCart(${product.id})">Add to Cart</button>
+            <button onclick="addToWishlist(${product.id})">Wishlist</button>
+        `;
+        searchResultsRow.appendChild(productDiv);
+    });
+    searchResults.style.display = products.length ? 'block' : 'none';
+}
+
+// Add to cart function
+function addToCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = categories.flatMap(c => c.products).find(p => p.id === productId);
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${product.name} added to cart!`);
+        }
+
+        // Add to wishlist function
+        function addToWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const product = categories.flatMap(c => c.products).find(p => p.id === productId);
+            if (!wishlist.some(item => item.id === productId)) {
+                wishlist.push(product);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                alert(`${product.name} added to wishlist!`);
+            } else {
+                alert(`${product.name} is already in the wishlist.`);
+            }
+        }
+
+// Initialize categories on page load
+document.addEventListener('DOMContentLoaded', populateCategories);
+  </script>
+ </body>
+</html>
+
+
+
+
+
