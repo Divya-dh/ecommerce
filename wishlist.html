@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        .wishlist-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .wishlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #000000;
+        }
+        .wishlist-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .wishlist-item h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .wishlist-item p {
+            margin: 5px 0;
+        }
+        .clear-wishlist {
+            padding: 10px 20px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Wishlist</h1>
+    </header>
+    <div class="wishlist-container" id="wishlist-container">
+        <!-- Wishlist items will be dynamically loaded here -->
+    </div>
+    <script>
+        const wishlistContainer = document.getElementById('wishlist-container');
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+        if (wishlist.length > 0) {
+            wishlist.forEach(item => {
+                const wishlistItem = document.createElement('div');
+                wishlistItem.classList.add('wishlist-item');
+                wishlistItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>Price: $${item.price}</p>
+                    </div>
+                `;
+                wishlistContainer.appendChild(wishlistItem);
+            });
+
+            const clearWishlistButton = document.createElement('button');
+            clearWishlistButton.classList.add('clear-wishlist');
+            clearWishlistButton.innerText = 'Clear Wishlist';
+            clearWishlistButton.addEventListener('click', () => {
+                localStorage.removeItem('wishlist');
+                alert('Wishlist cleared!');
+                window.location.reload();
+            });
+            wishlistContainer.appendChild(clearWishlistButton);
+        } else {
+            wishlistContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+        }
+    </script>
+</body>
+</html>

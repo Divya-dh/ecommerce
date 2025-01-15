@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        .cart-container, .payment-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #000000;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .cart-item h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .cart-item p {
+            margin: 5px 0;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            font-family: 'Copperplate', 'Copperplate Gothic Light', serif;
+        }
+        .clear-cart,
+        .proceed-to-pay,
+        .pay-button {
+            padding: 10px 20px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Cart</h1>
+    </header>
+    <div class="cart-container" id="cart-container">
+        <!-- Cart items will be dynamically loaded here -->
+    </div>
+    <div class="payment-container" id="payment-container" style="display: none;">
+        <h2>Order Summary</h2>
+        <div id="payment-items"></div>
+        <p class="total-amount" id="total-amount"></p>
+        <button class="pay-button" onclick="makePayment()">Pay</button>
+    </div>
+    <script>
+        const cartContainer = document.getElementById('cart-container');
+        const paymentContainer = document.getElementById('payment-container');
+        const paymentItems = document.getElementById('payment-items');
+        const totalAmountElem = document.getElementById('total-amount');
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        if (cart.length > 0) {
+            let totalAmount = 0;
+
+            cart.forEach(item => {
+                totalAmount += item.price;
+
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>Price: $${item.price}</p>
+                    </div>
+                `;
+                cartContainer.appendChild(cartItem);
+            });
+
+            const buttonsContainer = document.createElement('div');
+            buttonsContainer.classList.add('buttons-container');
+
+            // Clear Cart Button
+            const clearCartButton = document.createElement('button');
+            clearCartButton.classList.add('clear-cart');
+            clearCartButton.innerText = 'Clear Cart';
+            clearCartButton.addEventListener('click', () => {
+                localStorage.removeItem('cart');
+                alert('Cart cleared!');
+                window.location.reload();
+            });
+
+            // Proceed to Pay Button
+            const proceedToPayButton = document.createElement('button');
+            proceedToPayButton.classList.add('proceed-to-pay');
+            proceedToPayButton.innerText = 'Proceed to Pay';
+            proceedToPayButton.addEventListener('click', () => {
+                cartContainer.style.display = 'none';
+                paymentContainer.style.display = 'block';
+                loadPaymentSummary(totalAmount);
+            });
+
+            buttonsContainer.appendChild(clearCartButton);
+            buttonsContainer.appendChild(proceedToPayButton);
+            cartContainer.appendChild(buttonsContainer);
+        } else {
+            cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+        }
+
+        function loadPaymentSummary(totalAmount) {
+            paymentItems.innerHTML = '';
+            cart.forEach(item => {
+                const paymentItem = document.createElement('div');
+                paymentItem.classList.add('cart-item');
+                paymentItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>Price: $${item.price}</p>
+                    </div>
+                `;
+                paymentItems.appendChild(paymentItem);
+            });
+            totalAmountElem.innerText = `Total Amount: $${totalAmount}`;
+        }
+
+        function makePayment() {
+            localStorage.removeItem('cart');
+            window.location.href = 'payment-successful.html';
+        }
+    </script>
+</body>
+</html>
+
