@@ -214,61 +214,79 @@
             }
         ];
 
-        const categoriesContainer = document.getElementById('categories-container');
-        const paginationContainer = document.getElementById('pagination');
-        let currentIndex = parseInt(window.location.hash.substring(1)) || 0;
+    const categoriesContainer = document.getElementById('categories-container');
+    const paginationContainer = document.getElementById('pagination');
+    let currentIndex = parseInt(window.location.hash.substring(1)) || 0;
 
-        const renderCategories = () => {
-            categoriesContainer.innerHTML = '';
-            const category = categories[currentIndex];
-            const categoryDiv = document.createElement('div');
-            categoryDiv.classList.add('category-container');
-            categoryDiv.innerHTML = `<h2>${category.name}</h2>`;
+    const cart = [];
+    const wishlist = [];
 
-            const productsRow = document.createElement('div');
-            productsRow.classList.add('products-row');
+    const addToCart = (productId) => {
+        const product = findProductById(productId);
+        cart.push(product);
+        alert(`${product.name} has been added to your cart.`);
+    };
 
-            category.products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('product');
-                productDiv.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>$${product.price}</p>
-                    <button onclick="addToCart(${product.id})">Add to Cart</button>
-                    <button onclick="addToWishlist(${product.id})">Add to Wishlist</button>
-                `;
-                productsRow.appendChild(productDiv);
-            });
+    const addToWishlist = (productId) => {
+        const product = findProductById(productId);
+        wishlist.push(product);
+        alert(`${product.name} has been added to your wishlist.`);
+    };
 
-            categoryDiv.appendChild(productsRow);
-            categoriesContainer.appendChild(categoryDiv);
-            renderPagination(currentIndex);
-        };
+    const findProductById = (productId) => {
+        const category = categories[currentIndex];
+        return category.products.find(product => product.id === productId);
+    };
 
-        const renderPagination = (currentIndex) => {
-            const pageCount = categories.length;
-            paginationContainer.innerHTML = '';
-            
-            for (let i = 0; i < pageCount; i++) {
-                const pageLink = document.createElement('a');
-                pageLink.href = `#${i}`;
-                pageLink.textContent = `${i + 1}`; // Display only the numbers
-                if (i === currentIndex) {
-                    pageLink.classList.add('active');
-                }
-                paginationContainer.appendChild(pageLink);
-            }
-        };
+    const renderCategories = () => {
+        categoriesContainer.innerHTML = '';
+        const category = categories[currentIndex];
+        const categoryDiv = document.createElement('div');
+        categoryDiv.classList.add('category-container');
+        categoryDiv.innerHTML = `<h2>${category.name}</h2>`;
 
-        window.addEventListener('hashchange', () => {
-            currentIndex = parseInt(window.location.hash.substring(1)) || 0;
-            renderCategories();
+        const productsRow = document.createElement('div');
+        productsRow.classList.add('products-row');
+
+        category.products.forEach(product => {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+            productDiv.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>$${product.price}</p>
+                <button onclick="addToCart(${product.id})">Add to Cart</button>
+                <button onclick="addToWishlist(${product.id})">Add to Wishlist</button>
+            `;
+            productsRow.appendChild(productDiv);
         });
 
+        categoryDiv.appendChild(productsRow);
+        categoriesContainer.appendChild(categoryDiv);
+        renderPagination(currentIndex);
+    };
+
+    const renderPagination = (currentIndex) => {
+        const pageCount = categories.length;
+        paginationContainer.innerHTML = '';
+        
+        for (let i = 0; i < pageCount; i++) {
+            const pageLink = document.createElement('a');
+            pageLink.href = `#${i}`;
+            pageLink.textContent = `${i + 1}`; // Display only the numbers
+            if (i === currentIndex) {
+                pageLink.classList.add('active');
+            }
+            paginationContainer.appendChild(pageLink);
+        }
+    };
+
+    window.addEventListener('hashchange', () => {
+        currentIndex = parseInt(window.location.hash.substring(1)) || 0;
         renderCategories();
-    </script>
+    });
+
+    renderCategories();
+</script>
 </body>
 </html>
-
-
